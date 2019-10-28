@@ -9,6 +9,7 @@ export default function Login({history}){
 
     async function handleSubmit(e){
         e.preventDefault();
+        // send username on req body
         const storeUserResponse = await api.post('/devs', {username:userName});
         const { _id:userId } = storeUserResponse.data 
 
