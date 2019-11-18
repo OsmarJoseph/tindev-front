@@ -76,4 +76,9 @@
     color:#888;
     margin-top:5px;   
 }
-
+.main-container .empty {
+    font-size: 32px;
+    color:#999;
+    font-weight: bold;
+    margin-top:300px;
+}

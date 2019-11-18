@@ -1,4 +1,5 @@
 import React, {useEffect,useState} from 'react';
+import {Link} from 'react-router-dom';
 import './Main.css';
 import logo from '../assets/logo.svg'
 import like from '../assets/like.svg'
@@ -15,38 +16,40 @@ export default function Main({match}){
         }
         loadUsers()
     },[match.params.id])
-    async function handleLike(id){
-
-    }
-    async function handleDislike(id){
-        await api.post(`/devs/${id}/dislikes`,null,{headers:{user:match.params.id}})
+    async function handleRating(id,typeOfRating){
+        // the second paramater for post is the body , for this is null
+        await api.post(`/devs/${id}/${typeOfRating}`,null,{headers:{user:match.params.id}})
         // always use set function instead of using methods on the user array
+        // remove the user that have the id, id
         setUsers(users.filter(user=>user._id !== id))
     }
     return (
         <div className="main-container">
-            <img src={logo} alt="TinDev"/>
-            <ul>
-                {users.map(user => (
-                    <li key={user._id}>
-                        <img src={user.avatar} alt={user.name}/>
-                        <footer>
-                            <strong>{user.name}</strong>
-                            <p>{user.bio}</p>
-                        </footer>
-                        <div className="buttons">
-                                                {/* handleLike(user._id) executaria a função automaticamente */}
-                            <button type="button" onClick={() => handleLike(user._id)}>
-                                <img  src={like} alt="like"></img>
-                            </button>
-                            <button type="button" onClick={() => handleDislike(user._id)}>
-                                <img  src={dislike} alt="dislike"></img>
-                            </button>
-                        </div>
-                    </li>
-                ))}
-                
-            </ul>
+            <Link to="/">
+                <img src={logo} alt="TinDev"/>
+            </Link>
+            { users.length > 0 ?  (
+                <ul>
+                    {users.map(user => (
+                        <li key={user._id}>
+                            <img src={user.avatar} alt={user.name}/>
+                            <footer>
+                                <strong>{user.name}</strong>
+                                <p>{user.bio}</p>
+                            </footer>
+                            <div className="buttons">
+                                {/* handleRating(user._id) executaria a função automaticamente */}
+                                <button type="button" onClick={() => handleRating(user._id,'likes')}>
+                                    <img  src={like} alt="like"></img>
+                                </button>
+                                <button type="button" onClick={() => handleRating(user._id,'dislikes')}>
+                                    <img  src={dislike} alt="dislike"></img>
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+                ) : (<div className="empty">Acabou :(</div>) }
         </div>
     )
 }
