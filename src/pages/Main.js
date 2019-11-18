@@ -15,6 +15,7 @@ export default function Main({match}){
             setUsers(usersResponse.data)
         }
         loadUsers()
+        // param from the route
     },[match.params.id])
     async function handleRating(id,typeOfRating){
         // the second paramater for post is the body , for this is null
