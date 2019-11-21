@@ -4,6 +4,7 @@ import './Main.css';
 import logo from '../assets/logo.svg'
 import like from '../assets/like.svg'
 import api from '../services/api'
+import io from 'socket.io-client';
 import dislike from '../assets/dislike.svg'
 
 export default function Main({match}){
@@ -16,6 +17,10 @@ export default function Main({match}){
         }
         loadUsers()
     },[match.params.id])
+
+    useEffect(() => {
+        const socket = io('http://192.168.42.68:3333')
+    }, [match.params.id])
     async function handleRating(id,typeOfRating){
         // the second paramater for post is the body , for this is null
         await api.post(`/devs/${id}/${typeOfRating}`,null,{headers:{user:match.params.id}})
