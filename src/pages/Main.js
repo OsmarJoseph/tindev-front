@@ -16,6 +16,7 @@ export default function Main({match}){
             setUsers(usersResponse.data)
         }
         loadUsers()
+        // param from the route
     },[match.params.id])
 
     useEffect(() => {
